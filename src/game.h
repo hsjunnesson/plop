@@ -3,7 +3,7 @@
 #pragma warning(push, 0)
 #include "collection_types.h"
 #include "memory_types.h"
-#pragma warning(pop) 
+#pragma warning(pop)
 
 typedef struct ini_t ini_t;
 
@@ -45,7 +45,7 @@ enum class AppState {
 struct Game {
     Game(foundation::Allocator &allocator, const char *config_path);
     ~Game();
-    
+
     foundation::Allocator &allocator;
     ini_t *config;
     AppState app_state;
@@ -104,6 +104,6 @@ bool on_shutdown(engine::Engine &engine, void *game);
  * @param game The game to transition
  * @param app_state The AppState to transition to.
  */
-void transition(engine::Engine &engine, void *game, AppState app_state); 
+void transition(engine::Engine &engine, void *game, AppState app_state);
 
 } // namespace plop

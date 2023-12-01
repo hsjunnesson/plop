@@ -1,19 +1,19 @@
 #include "game.h"
 
-#include <assert.h> 
+#include <assert.h>
 
 #include <engine/action_binds.h>
 #include <engine/config.h>
 #include <engine/engine.h>
-#include <engine/input.h>
-#include <engine/ini.h>
-#include <engine/log.h>
 #include <engine/file.h>
+#include <engine/ini.h>
+#include <engine/input.h>
+#include <engine/log.h>
 
-#include <memory.h>
-#include <temp_allocator.h> 
-#include <string_stream.h>
 #include <hash.h>
+#include <memory.h>
+#include <string_stream.h>
+#include <temp_allocator.h>
 
 namespace plop {
 
@@ -95,14 +95,14 @@ void on_input(engine::Engine &engine, void *game_object, engine::InputCommand &i
     if (input_command.input_type == engine::InputType::Key) {
         bool pressed = input_command.key_state.trigger_state == engine::TriggerState::Pressed;
         bool repeated = input_command.key_state.trigger_state == engine::TriggerState::Repeated;
-    
+
         uint64_t bind_action_key = action_key_for_input_command(input_command);
         if (bind_action_key == 0) {
             return;
         }
-    
+
         ActionHash action_hash = ActionHash(foundation::hash::get(game->action_binds->bind_actions, bind_action_key, (uint64_t)0));
-        
+
         switch (action_hash) {
         case (ActionHash::QUIT): {
             if (pressed) {
@@ -123,7 +123,6 @@ void render(engine::Engine &engine, void *game_object) {
     if (game->app_state != AppState::Playing) {
         return;
     }
-
 }
 
 void render_imgui(engine::Engine &engine, void *game_object) {
@@ -135,8 +134,6 @@ void render_imgui(engine::Engine &engine, void *game_object) {
     if (game->app_state != AppState::Playing) {
         return;
     }
-
-
 }
 
 bool on_shutdown(engine::Engine &engine, void *game_object) {
