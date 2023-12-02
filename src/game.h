@@ -5,6 +5,8 @@
 #include "memory_types.h"
 #pragma warning(pop)
 
+#include "wwise.h"
+
 typedef struct ini_t ini_t;
 
 namespace engine {
@@ -14,11 +16,12 @@ struct ActionBinds;
 } // namespace engine
 
 namespace plop {
-
+   
 /// Murmur hashed actions.
 enum class ActionHash : uint64_t {
     NONE = 0x0ULL,
     QUIT = 0x387bbb994ac3551ULL,
+    PLAY_DEBUG = 0x4fda3bbaea57358fULL,
 };
 
 /**
@@ -51,6 +54,7 @@ struct Game {
     AppState app_state;
 
     engine::ActionBinds *action_binds;
+    wwise::Wwise wwise;
 };
 
 /**

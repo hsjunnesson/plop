@@ -10,8 +10,10 @@
 
 #if defined(_WIN32)
 #include <Windows.h>
+#endif
 
-#include <fileapi.h>
+#if defined(_MSC_VER)
+#pragma comment(lib, "Ws2_32.lib")
 #endif
 
 #if defined(LIVE_PP)

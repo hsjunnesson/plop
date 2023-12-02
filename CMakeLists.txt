@@ -37,6 +37,8 @@ endif()
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/chocolate")
 
+set(WWISE_SDK "c:/Program Files (x86)/Audiokinetic/Wwise 2023.1.0.8367/SDK")
+find_package(Wwise REQUIRED)
 
 
 # Main game source
@@ -45,13 +47,40 @@ set(SRC_plop
     "src/main.cpp"
     "src/game.h"
     "src/game.cpp"
+    "src/wwise.h"
+    "src/wwise.cpp"
     "src/rnd.h"
+    "src/Wwise_IDs.h"
+    "src/util.h"
+)
+
+set(SRC_AK
+    "src/SoundEngine/Common/AkFileHelpersBase.h"
+    "src/SoundEngine/Common/AkFileLocationBase.cpp"
+    "src/SoundEngine/Common/AkFileLocationBase.h"
+    "src/SoundEngine/Common/AkFilePackage.cpp"
+    "src/SoundEngine/Common/AkFilePackage.h"
+    "src/SoundEngine/Common/AkFilePackageLowLevelIO.h"
+    "src/SoundEngine/Common/AkFilePackageLowLevelIO.inl"
+    "src/SoundEngine/Common/AkFilePackageLowLevelIODeferred.h"
+    "src/SoundEngine/Common/AkFilePackageLUT.cpp"
+    "src/SoundEngine/Common/AkFilePackageLUT.h"
+    "src/SoundEngine/Common/AkGeneratedSoundBanksResolver.cpp"
+    "src/SoundEngine/Common/AkGeneratedSoundBanksResolver.h"
+    "src/SoundEngine/Common/AkMultipleFileLocation.cpp"
+    "src/SoundEngine/Common/AkMultipleFileLocation.h"
+    "src/SoundEngine/Common/AkJobWorkerMgr.h"
+    "src/SoundEngine/Common/AkJobWorkerMgr.cpp"
+    "src/SoundEngine/Win32/AkDefaultIOHookDeferred.cpp"
+    "src/SoundEngine/Win32/AkDefaultIOHookDeferred.h"
+    "src/SoundEngine/Win32/AkFileHelpers.h"
 )
 
 
 # Create executable
 add_executable(${PROJECT_NAME}
     ${SRC_plop}
+    ${SRC_AK}
 )
 
 
@@ -65,6 +94,10 @@ if (LIVE_PP)
     include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/LivePP/API/x64)
 endif()
 
+include_directories(SYSTEM ${Wwise_INCLUDE_DIR})
+include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/src/SoundEngine)
+include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/src/SoundEngine/Win32)
+
 
 # Linked libraries
 
@@ -74,11 +107,18 @@ if (SUPERLUMINAL)
     target_link_libraries(${PROJECT_NAME} PRIVATE SuperluminalAPI)
 endif()
 
+foreach(lib ${Wwise_LIBRARIES})
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${lib})
+endforeach()
+
+# target_link_libraries(${PROJECT_NAME} PRIVATE debug ws2_32)
 
 # Compiler warnings & definitions
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE _USE_MATH_DEFINES)
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<CONFIG:Debug>:DEBUG=1>)
+
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DAK_OPTIMIZED")
 
 include(cmake/CompilerWarnings.cmake)
 myproject_set_project_warnings(${PROJECT_NAME})
@@ -89,6 +129,9 @@ if (MSVC)
     set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE TRUE)
     set_property(TARGET ${PROJECT_NAME} PROPERTY LINK_FLAGS "/SUBSYSTEM:WINDOWS")
     target_compile_definitions(${PROJECT_NAME} PRIVATE UNICODE=1)
+
+    source_group("wwise" FILES ${SRC_AK})
+    set_source_files_properties(${SRC_AK} PROPERTIES COMPILE_FLAGS "/Zc:wchar_t")
 
     if (LIVE_PP)
         target_compile_definitions(${PROJECT_NAME} PRIVATE LIVE_PP=1 NOMINMAX=1)

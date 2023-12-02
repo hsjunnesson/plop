@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{D532C7BC-9D9E-4E9A-96BD-F3344B314713}" SchemaVersion="119" RootDocumentID="{A40725D3-9EE0-43AB-8724-C881781F335B}" ParentDocumentID="{A40725D3-9EE0-43AB-8724-C881781F335B}">
+	<AudioObjects>
+		<WorkUnit Name="ship" ID="{D532C7BC-9D9E-4E9A-96BD-F3344B314713}" OwnerID="{A40725D3-9EE0-43AB-8724-C881781F335B}" PersistMode="Nested">
+			<PropertyList>
+				<Property Name="Color" Type="int16" Value="26"/>
+				<Property Name="OverrideColor" Type="bool" Value="True"/>
+			</PropertyList>
+			<ChildrenList>
+				<ActorMixer Name="Choir" ID="{7C03F864-D665-4287-BFC2-226D5D8A1A76}" ShortID="795000522">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{ED4CD3C3-CA1C-427D-9345-B7C2639E021F}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{17193359-C40F-4038-86B6-C97BDE00992C}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="Choir" ID="{CEA6190B-EA5E-42A3-8059-5CABED0B439B}" ShortID="832065387">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{ED4CD3C3-CA1C-427D-9345-B7C2639E021F}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{17193359-C40F-4038-86B6-C97BDE00992C}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Choir" ID="{14BEF0A1-86EE-4501-BF40-55B9E128EC29}">
+									<Language>SFX</Language>
+									<AudioFile>Choir.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="550317116"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Choir" ID="{14BEF0A1-86EE-4501-BF40-55B9E128EC29}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+					<PositioningInfo>
+						<Panner Name="" ID="{F68236DA-4DD7-4ECB-80FA-B14D0326DDA0}"/>
+					</PositioningInfo>
+				</ActorMixer>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>

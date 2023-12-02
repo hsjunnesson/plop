@@ -1,0 +1,6 @@
+Event	ID	Name			Wwise Object Path	Notes
+	3639753543	Play_Choir			\Default Work Unit\Play_Choir	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	550317116	Choir	C:\Users\Hans\Documents\GitHub\plop\plop_wwise\.cache\Windows\SFX\Choir_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\ship\Choir\Choir		576096
+

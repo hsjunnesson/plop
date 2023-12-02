@@ -1,6 +1,8 @@
 #include "game.h"
+#include "wwise.h"
 
 #include <assert.h>
+#include <functional>
 
 #include <engine/action_binds.h>
 #include <engine/config.h>
@@ -23,7 +25,8 @@ Game::Game(Allocator &allocator, const char *config_path)
 : allocator(allocator)
 , config(nullptr)
 , app_state(AppState::None)
-, action_binds(nullptr) {
+, action_binds(nullptr)
+, wwise(allocator) {
     action_binds = MAKE_NEW(allocator, engine::ActionBinds, allocator, config_path);
 
     // Config
@@ -40,6 +43,19 @@ Game::Game(Allocator &allocator, const char *config_path)
         if (!config) {
             log_fatal("Could not parse config file %s", config_path);
         }
+        
+        auto read_property = [](ini_t *config, const char *section, const char *property, const std::function<void(const char *)> success) {
+            const char *s = engine::config::read_property(config, section, property);
+            if (s) {
+                success(s);
+            } else {
+                if (!section) {
+                    section = "global property";
+                }
+
+                log_fatal("Invalid config file, missing [%s] %s", section, property);
+            }
+        };
     }
 }
 
@@ -78,6 +94,8 @@ void update(engine::Engine &engine, void *game_object, float t, float dt) {
         break;
     }
     }
+    
+    wwise::update();
 }
 
 void on_input(engine::Engine &engine, void *game_object, engine::InputCommand &input_command) {
@@ -107,6 +125,12 @@ void on_input(engine::Engine &engine, void *game_object, engine::InputCommand &i
         case (ActionHash::QUIT): {
             if (pressed) {
                 transition(engine, game_object, AppState::Quitting);
+            }
+            break;
+        }
+        case (ActionHash::PLAY_DEBUG): {
+            if (pressed) {
+                wwise::post_event(AK::EVENTS::PLAY_CHOIR, game->wwise.unpositioned_game_object_id);
             }
             break;
         }
@@ -173,6 +197,7 @@ void transition(engine::Engine &engine, void *game_object, AppState app_state) {
     }
     case AppState::Initializing: {
         log_info("Initializing");
+        wwise::load_bank(game->wwise, "Player");
         transition(engine, game_object, AppState::Playing);
         break;
     }

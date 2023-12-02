@@ -7,6 +7,17 @@
 *.rdbg
 *.header_hero
 
+# Wwise Project
+.backup*
+.cache*
+*.akd
+*.prof
+*.validationcache
+*.wsettings
+AkWwiseProjectData.asset
+IncrementalSoundBankData.xml
+
+
 /docs/Gemfile
 /docs/Gemfile.lock
 /docs/_site
