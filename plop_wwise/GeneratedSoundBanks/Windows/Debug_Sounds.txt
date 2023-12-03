@@ -1,0 +1,18 @@
+Event	ID	Name			Wwise Object Path	Notes
+	15674995	Play_Piano_C_001			\Debug\Play_Piano_C_001	
+	857158485	Play_Piano_A_001			\Debug\Play_Piano_A_001	
+	1200867520	Play_Piano_D_001			\Debug\Play_Piano_D_001	
+	1625241216	Play_Piano_Bb_001			\Debug\Play_Piano_Bb_001	
+	2506816126	Play_Piano_F_001			\Debug\Play_Piano_F_001	
+	3256878353	Play_Piano_E_001			\Debug\Play_Piano_E_001	
+	4116466127	Play_Piano_G_001			\Debug\Play_Piano_G_001	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	106529246	Piano_F_001	C:\Users\Hans\Documents\GitHub\plop\plop_wwise\.cache\Windows\SFX\Piano_F_001_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\Debug\Piano\Piano_F_001		384096
+	298918004	Piano_D_001	C:\Users\Hans\Documents\GitHub\plop\plop_wwise\.cache\Windows\SFX\Piano_D_001_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\Debug\Piano\Piano_D_001		384096
+	671718477	Piano_C_001	C:\Users\Hans\Documents\GitHub\plop\plop_wwise\.cache\Windows\SFX\Piano_C_001_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\Debug\Piano\Piano_C_001		384096
+	742954270	Piano_E_001	C:\Users\Hans\Documents\GitHub\plop\plop_wwise\.cache\Windows\SFX\Piano_E_001_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\Debug\Piano\Piano_E_001		384096
+	742989952	Piano_G_001	C:\Users\Hans\Documents\GitHub\plop\plop_wwise\.cache\Windows\SFX\Piano_G_001_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\Debug\Piano\Piano_G_001		384096
+	912972232	Piano_A_001	C:\Users\Hans\Documents\GitHub\plop\plop_wwise\.cache\Windows\SFX\Piano_A_001_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\Debug\Piano\Piano_A_001		384096
+	965586834	Piano_Bb_001	C:\Users\Hans\Documents\GitHub\plop\plop_wwise\.cache\Windows\SFX\Piano_Bb_001_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\Debug\Piano\Piano_Bb_001		384096
+

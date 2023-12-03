@@ -244,6 +244,8 @@ void unregister_game_object(AkGameObjectID game_object_id) {
     if (result != AK_Success) {
         log_fatal("Could not AK::SoundEngine::UnregisterGameObj: %d: %d", game_object_id, result);
     }
+    
+    
 }
 
 AkPlayingID post_event(AkUniqueID event_id, AkGameObjectID game_object_id) {
@@ -262,6 +264,15 @@ AkPlayingID post_event(const char *event_name, AkGameObjectID game_object_id) {
     }
 
     return playing_id;
+}
+
+void set_position(AkGameObjectID game_object_id, math::Vector3f position) {
+    AkSoundPosition pos;
+    pos.SetPosition(position.x, position.y, position.z);
+    AKRESULT result = AK::SoundEngine::SetPosition(game_object_id, pos);
+    if (result != AK_Success) {
+        log_error("Could not ::SoundEngine::SetPosition for game object %" PRIu64 ": %d", game_object_id, result);
+    }
 }
 
 void update() {

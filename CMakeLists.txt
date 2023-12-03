@@ -11,7 +11,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-set(LIVE_PP False)
+set(LIVE_PP True)
 set(SUPERLUMINAL False)
 
 # Find locally installed dependencies. Tip: Use VCPKG for these.
@@ -50,8 +50,10 @@ set(SRC_plop
     "src/wwise.h"
     "src/wwise.cpp"
     "src/rnd.h"
-    "src/Wwise_IDs.h"
     "src/util.h"
+    "src/palette.h"
+    "src/palette.cpp"
+    "plop_wwise/GeneratedSoundBanks/Wwise_IDs.h"
 )
 
 set(SRC_AK
@@ -95,6 +97,7 @@ if (LIVE_PP)
 endif()
 
 include_directories(SYSTEM ${Wwise_INCLUDE_DIR})
+include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/plop_wwise/GeneratedSoundBanks)
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/src/SoundEngine)
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/src/SoundEngine/Win32)
 

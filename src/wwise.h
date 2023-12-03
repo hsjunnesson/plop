@@ -5,15 +5,10 @@
 #include <stdint.h>
 #include <AK/SoundEngine/Common/AkTypes.h>
 #include "Wwise_IDs.h"
+#include <engine/math.inl>
 #pragma warning(pop)
 
 #include "util.h"
-
-#pragma warning(push, 0)
-#include "collection_types.h"
-#include "memory_types.h"
-#include <AK/SoundEngine/Common/AkTypes.h>
-#pragma warning(pop)
 
 namespace wwise {
 
@@ -37,6 +32,8 @@ void unregister_game_object(AkGameObjectID game_object_id);
 
 AkPlayingID post_event(AkUniqueID event_id, AkGameObjectID game_object_id);
 AkPlayingID post_event(const char *event_name, AkGameObjectID game_object_id);
+
+void set_position(AkGameObjectID game_object_id, math::Vector3f position);
 
 void update();
 

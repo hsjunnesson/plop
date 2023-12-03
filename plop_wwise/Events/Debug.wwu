@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{36C2D2B5-9087-4A9A-960F-B097FA15E9D5}" SchemaVersion="119">
+	<Events>
+		<WorkUnit Name="Debug" ID="{36C2D2B5-9087-4A9A-960F-B097FA15E9D5}" PersistMode="Standalone">
+			<PropertyList>
+				<Property Name="Color" Type="int16" Value="24"/>
+				<Property Name="OverrideColor" Type="bool" Value="True"/>
+			</PropertyList>
+			<ChildrenList>
+				<Event Name="Play_Piano_Bb_001" ID="{7B025363-38D6-4131-ACE9-69D5CA28E899}">
+					<ChildrenList>
+						<Action Name="" ID="{AACD8334-C1DF-41B7-B2D9-0BFD096C04BC}" ShortID="329640137">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Piano_Bb_001" ID="{4A00A4CC-715A-40B5-BA1D-0C61133B049D}" WorkUnitID="{EE4A58D5-4785-43B1-AFDA-E08BD860BE5C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Piano_C_001" ID="{4B7C4921-507F-475E-AD78-8F7D9933BA38}">
+					<ChildrenList>
+						<Action Name="" ID="{F80AD194-E5E4-4D67-B9B9-E1FDB998F42B}" ShortID="515918422">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Piano_C_001" ID="{95F4C54B-6010-443C-BEDA-18C3043784C5}" WorkUnitID="{EE4A58D5-4785-43B1-AFDA-E08BD860BE5C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Piano_D_001" ID="{1B614F49-8A39-4B68-9BF3-2EA8F866F098}">
+					<ChildrenList>
+						<Action Name="" ID="{672BD21A-B867-4815-9052-85C470591E21}" ShortID="846338869">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Piano_D_001" ID="{2F1AD6AB-946C-43D3-BBBC-C6DF3C0F6156}" WorkUnitID="{EE4A58D5-4785-43B1-AFDA-E08BD860BE5C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Piano_E_001" ID="{AF1B5326-B3F7-404B-8D63-9F2085F47664}">
+					<ChildrenList>
+						<Action Name="" ID="{9133FC52-2A60-4172-BAD7-D6A8CF39B35F}" ShortID="696833193">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Piano_E_001" ID="{5175077F-456F-4E09-A10C-B760720FD3C2}" WorkUnitID="{EE4A58D5-4785-43B1-AFDA-E08BD860BE5C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Piano_A_001" ID="{2052DEE0-4463-404A-A9D0-BF999EEFD389}">
+					<ChildrenList>
+						<Action Name="" ID="{18D79EDD-AB54-4C3B-9A94-F374119327C2}" ShortID="784495967">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Piano_A_001" ID="{B0E4E23D-C2E6-433A-A945-F58ECAF50DE0}" WorkUnitID="{EE4A58D5-4785-43B1-AFDA-E08BD860BE5C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Piano_G_001" ID="{05E8010C-B93F-4A0C-8B55-396459AA90E5}">
+					<ChildrenList>
+						<Action Name="" ID="{24B4955D-6A5F-4C22-8BE5-CE2DB316A764}" ShortID="600411285">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Piano_G_001" ID="{5D5BC588-AE64-49D1-8596-37426B4A066D}" WorkUnitID="{EE4A58D5-4785-43B1-AFDA-E08BD860BE5C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Piano_F_001" ID="{CC5B4265-B7BB-43A9-987C-728B0A92FAB6}">
+					<ChildrenList>
+						<Action Name="" ID="{B294BC15-B855-4AD4-8ED4-E78CB378420A}" ShortID="888141292">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Piano_F_001" ID="{D7FB621E-B6E6-4974-A420-573031CF4AB9}" WorkUnitID="{EE4A58D5-4785-43B1-AFDA-E08BD860BE5C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

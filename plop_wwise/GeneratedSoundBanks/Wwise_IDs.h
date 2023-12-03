@@ -13,12 +13,19 @@ namespace AK
 {
     namespace EVENTS
     {
-        static const AkUniqueID PLAY_CHOIR = 3639753543U;
+        static const AkUniqueID PLAY_PIANO_A_001 = 857158485U;
+        static const AkUniqueID PLAY_PIANO_BB_001 = 1625241216U;
+        static const AkUniqueID PLAY_PIANO_C_001 = 15674995U;
+        static const AkUniqueID PLAY_PIANO_D_001 = 1200867520U;
+        static const AkUniqueID PLAY_PIANO_E_001 = 3256878353U;
+        static const AkUniqueID PLAY_PIANO_F_001 = 2506816126U;
+        static const AkUniqueID PLAY_PIANO_G_001 = 4116466127U;
     } // namespace EVENTS
 
     namespace BANKS
     {
         static const AkUniqueID INIT = 1355168291U;
+        static const AkUniqueID DEBUG_SOUNDS = 3639013697U;
         static const AkUniqueID PLAYER = 1069431850U;
     } // namespace BANKS
 

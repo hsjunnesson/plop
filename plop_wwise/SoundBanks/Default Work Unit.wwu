@@ -4,8 +4,23 @@
 		<WorkUnit Name="Default Work Unit" ID="{9EA47881-6291-43FF-8C49-AA41116CDE6D}" PersistMode="Standalone">
 			<ChildrenList>
 				<SoundBank Name="Player" ID="{849E1D98-2750-4691-A4A3-E839208DFFD1}">
+					<ObjectInclusionList/>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+				<SoundBank Name="Debug_Sounds" ID="{70162A36-9827-485E-B4CB-41371A73D684}">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="24"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
 					<ObjectInclusionList>
-						<ObjectRef Name="Play_Choir" ID="{4676691C-1B25-441D-ACC3-D57D95998B2B}" WorkUnitID="{AD0C2FDD-69E3-4955-BEAA-3C3752C1D8AC}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Piano_A_001" ID="{2052DEE0-4463-404A-A9D0-BF999EEFD389}" WorkUnitID="{36C2D2B5-9087-4A9A-960F-B097FA15E9D5}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Piano_E_001" ID="{AF1B5326-B3F7-404B-8D63-9F2085F47664}" WorkUnitID="{36C2D2B5-9087-4A9A-960F-B097FA15E9D5}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Piano_Bb_001" ID="{7B025363-38D6-4131-ACE9-69D5CA28E899}" WorkUnitID="{36C2D2B5-9087-4A9A-960F-B097FA15E9D5}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Piano_F_001" ID="{CC5B4265-B7BB-43A9-987C-728B0A92FAB6}" WorkUnitID="{36C2D2B5-9087-4A9A-960F-B097FA15E9D5}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Piano_C_001" ID="{4B7C4921-507F-475E-AD78-8F7D9933BA38}" WorkUnitID="{36C2D2B5-9087-4A9A-960F-B097FA15E9D5}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Piano_G_001" ID="{05E8010C-B93F-4A0C-8B55-396459AA90E5}" WorkUnitID="{36C2D2B5-9087-4A9A-960F-B097FA15E9D5}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_Piano_D_001" ID="{1B614F49-8A39-4B68-9BF3-2EA8F866F098}" WorkUnitID="{36C2D2B5-9087-4A9A-960F-B097FA15E9D5}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>

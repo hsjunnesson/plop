@@ -1,10 +1,8 @@
 #pragma once
 
-#pragma warning(push, 0)
 #include "collection_types.h"
 #include "memory_types.h"
-#pragma warning(pop)
-
+#include <engine/math.inl>
 #include "wwise.h"
 
 typedef struct ini_t ini_t;
@@ -13,6 +11,7 @@ namespace engine {
 struct Engine;
 struct InputCommand;
 struct ActionBinds;
+struct Canvas;
 } // namespace engine
 
 namespace plop {
@@ -45,6 +44,31 @@ enum class AppState {
     Terminate,
 };
 
+enum class Degree : int {
+    NONE = 0,
+    FIRST = 1,
+    SECOND = 2,
+    THIRD = 3,
+    FOURTH = 4,
+    FIFTH = 5,
+    SIXTH = 6,
+    SEVENTH = 7,
+    OCTAVE = 8,
+};
+
+struct Bomp {
+    math::Vector3f position;
+    AkGameObjectID wwise_game_object_id = AK_INVALID_GAME_OBJECT;
+    AkPlayingID playing_id = AK_INVALID_PLAYING_ID;
+    float playing_time;
+    Degree degree;
+    float radius;
+    float radius_min;
+    float radius_max;
+    float speed;
+    float time_offset;
+};
+
 struct Game {
     Game(foundation::Allocator &allocator, const char *config_path);
     ~Game();
@@ -54,7 +78,12 @@ struct Game {
     AppState app_state;
 
     engine::ActionBinds *action_binds;
+    engine::Canvas *canvas;
+    
+    foundation::Array<math::Color4f> palette;
     wwise::Wwise wwise;
+    
+    foundation::Array<Bomp> bomps;
 };
 
 /**

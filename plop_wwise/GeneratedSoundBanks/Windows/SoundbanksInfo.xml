@@ -9,24 +9,11 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{CE556538-2F22-6E74-1BC4-6EA56A8886F1}">
+		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{B258A9CB-9B78-99D5-DC38-0D2D05EE44EB}">
 			<ShortName>Player</ShortName>
 			<Path>Player.bnk</Path>
-			<Media>
-				<File Id="550317116" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>Choir.wav</ShortName>
-					<CachePath>SFX/Choir_818F3B66.wem</CachePath>
-				</File>
-			</Media>
-			<Events>
-				<Event Id="3639753543" Name="Play_Choir">
-					<MediaRefs>
-						<MediaRef Id="550317116"/>
-					</MediaRefs>
-				</Event>
-			</Events>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{80AA3125-B4C7-2DBE-1BF1-31EE7B72A930}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{31172F59-021A-2610-455A-567A78120C80}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -167,6 +154,77 @@
 				</AcousticTexture>
 			</AcousticTextures>
 		</SoundBank>
+		<SoundBank Id="3639013697" Type="User" Language="SFX" Hash="{47FBE898-F19D-F50F-A794-C2B818B53AAB}">
+			<ShortName>Debug_Sounds</ShortName>
+			<Path>Debug_Sounds.bnk</Path>
+			<Media>
+				<File Id="106529246" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Piano_F_001.wav</ShortName>
+					<CachePath>SFX/Piano_F_001_818F3B66.wem</CachePath>
+				</File>
+				<File Id="298918004" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Piano_D_001.wav</ShortName>
+					<CachePath>SFX/Piano_D_001_818F3B66.wem</CachePath>
+				</File>
+				<File Id="671718477" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Piano_C_001.wav</ShortName>
+					<CachePath>SFX/Piano_C_001_818F3B66.wem</CachePath>
+				</File>
+				<File Id="742954270" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Piano_E_001.wav</ShortName>
+					<CachePath>SFX/Piano_E_001_818F3B66.wem</CachePath>
+				</File>
+				<File Id="742989952" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Piano_G_001.wav</ShortName>
+					<CachePath>SFX/Piano_G_001_818F3B66.wem</CachePath>
+				</File>
+				<File Id="912972232" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Piano_A_001.wav</ShortName>
+					<CachePath>SFX/Piano_A_001_818F3B66.wem</CachePath>
+				</File>
+				<File Id="965586834" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Piano_Bb_001.wav</ShortName>
+					<CachePath>SFX/Piano_Bb_001_818F3B66.wem</CachePath>
+				</File>
+			</Media>
+			<Events>
+				<Event Id="857158485" Name="Play_Piano_A_001">
+					<MediaRefs>
+						<MediaRef Id="912972232"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1625241216" Name="Play_Piano_Bb_001">
+					<MediaRefs>
+						<MediaRef Id="965586834"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="15674995" Name="Play_Piano_C_001">
+					<MediaRefs>
+						<MediaRef Id="671718477"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1200867520" Name="Play_Piano_D_001">
+					<MediaRefs>
+						<MediaRef Id="298918004"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3256878353" Name="Play_Piano_E_001">
+					<MediaRefs>
+						<MediaRef Id="742954270"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2506816126" Name="Play_Piano_F_001">
+					<MediaRefs>
+						<MediaRef Id="106529246"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4116466127" Name="Play_Piano_G_001">
+					<MediaRefs>
+						<MediaRef Id="742989952"/>
+					</MediaRefs>
+				</Event>
+			</Events>
+		</SoundBank>
 	</SoundBanks>
-	<FileHash>{61BD1B55-6262-3BB1-C816-A702F3F7048A}</FileHash>
+	<FileHash>{88B3B4FC-3C88-8F24-0E3D-0715EBFF760C}</FileHash>
 </SoundBanksInfo>
