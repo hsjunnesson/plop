@@ -244,8 +244,6 @@ void unregister_game_object(AkGameObjectID game_object_id) {
     if (result != AK_Success) {
         log_fatal("Could not AK::SoundEngine::UnregisterGameObj: %d: %d", game_object_id, result);
     }
-    
-    
 }
 
 AkPlayingID post_event(AkUniqueID event_id, AkGameObjectID game_object_id) {
@@ -267,11 +265,34 @@ AkPlayingID post_event(const char *event_name, AkGameObjectID game_object_id) {
 }
 
 void set_position(AkGameObjectID game_object_id, math::Vector3f position) {
-    AkSoundPosition pos;
-    pos.SetPosition(position.x, position.y, position.z);
-    AKRESULT result = AK::SoundEngine::SetPosition(game_object_id, pos);
+    AkVector pos;
+    pos.X = position.x;
+    pos.Y = position.y;
+    pos.Z = position.z;
+    
+    AkVector front;
+    front.X = 0;
+    front.Y = 0;
+    front.Z = 1;
+    
+    AkVector top;
+    top.X = 0;
+    top.Y = 1;
+    top.Z = 0;
+
+    AkSoundPosition transform;
+    transform.Set(pos, front, top);
+
+    AKRESULT result = AK::SoundEngine::SetPosition(game_object_id, transform);
     if (result != AK_Success) {
-        log_error("Could not ::SoundEngine::SetPosition for game object %" PRIu64 ": %d", game_object_id, result);
+        log_error("Could not AK::SoundEngine::SetPosition for game object %" PRIu64 ": %d", game_object_id, result);
+    }
+}
+
+void set_game_parameter(AkRtpcID parameter_id, AkGameObjectID game_object_id, AkRtpcValue value) {
+    AKRESULT result = AK::SoundEngine::SetRTPCValue(parameter_id, value, game_object_id);
+    if (result != AK_Success) {
+        log_error("Could not AK::SoundEngine::SetRTPCValue for game object %" PRIu64 ": %d", game_object_id, result);
     }
 }
 

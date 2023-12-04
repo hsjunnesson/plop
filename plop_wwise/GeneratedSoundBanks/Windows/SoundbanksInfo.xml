@@ -13,7 +13,7 @@
 			<ShortName>Player</ShortName>
 			<Path>Player.bnk</Path>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{31172F59-021A-2610-455A-567A78120C80}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{4263A2CC-DF8F-7F64-2AC0-E88DF378FE23}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -25,6 +25,9 @@
 			<Busses>
 				<Bus Id="3803692087" Name="Master Audio Bus"/>
 			</Busses>
+			<GameParameters>
+				<GameParameter Id="3330268128" Name="BompMaxSize"/>
+			</GameParameters>
 			<AcousticTextures>
 				<AcousticTexture Id="504532776" Name="Brick">
 					<Properties>
@@ -154,7 +157,7 @@
 				</AcousticTexture>
 			</AcousticTextures>
 		</SoundBank>
-		<SoundBank Id="3639013697" Type="User" Language="SFX" Hash="{47FBE898-F19D-F50F-A794-C2B818B53AAB}">
+		<SoundBank Id="3639013697" Type="User" Language="SFX" Hash="{C5EDCF93-BDE6-8D21-B16B-8A0D9925ED78}">
 			<ShortName>Debug_Sounds</ShortName>
 			<Path>Debug_Sounds.bnk</Path>
 			<Media>
@@ -224,7 +227,10 @@
 					</MediaRefs>
 				</Event>
 			</Events>
+			<GameParameters>
+				<GameParameter Id="3330268128" Name="BompMaxSize"/>
+			</GameParameters>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{88B3B4FC-3C88-8F24-0E3D-0715EBFF760C}</FileHash>
+	<FileHash>{768E3447-CE0D-D46C-ADF4-083BA5040EF4}</FileHash>
 </SoundBanksInfo>

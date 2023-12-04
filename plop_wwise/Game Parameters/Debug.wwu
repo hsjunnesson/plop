@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{DA7FD813-C4ED-41E5-90FA-43DB1EA6012A}" SchemaVersion="119">
+	<GameParameters>
+		<WorkUnit Name="Debug" ID="{DA7FD813-C4ED-41E5-90FA-43DB1EA6012A}" PersistMode="Standalone">
+			<PropertyList>
+				<Property Name="Color" Type="int16" Value="24"/>
+				<Property Name="OverrideColor" Type="bool" Value="True"/>
+			</PropertyList>
+			<ChildrenList>
+				<GameParameter Name="BompMaxSize" ID="{6797FC23-8A9B-4B9D-BA81-12FBCF98BCD2}">
+					<PropertyList>
+						<Property Name="Max" Type="Real64" Value="256"/>
+					</PropertyList>
+				</GameParameter>
+			</ChildrenList>
+		</WorkUnit>
+	</GameParameters>
+</WwiseDocument>

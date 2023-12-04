@@ -35,6 +35,8 @@ AkPlayingID post_event(const char *event_name, AkGameObjectID game_object_id);
 
 void set_position(AkGameObjectID game_object_id, math::Vector3f position);
 
+void set_game_parameter(AkRtpcID parameter_id, AkGameObjectID game_object_id, AkRtpcValue value);
+
 void update();
 
 } // namespace wwise

@@ -27,6 +27,10 @@ namespace plop {
 
 using namespace foundation;
 
+math::Vector3f right_handed_screen_to_left_handed_world(const Game &game, const math::Vector3f v) {
+    return math::Vector3f { v.x, game.canvas->height - v.y, v.z };
+}
+
 Game::Game(Allocator &allocator, const char *config_path)
 : allocator(allocator)
 , config(nullptr)
@@ -113,7 +117,7 @@ Game::Game(Allocator &allocator, const char *config_path)
             float time_offset = rnd_pcg_nextf(&random_device) * 5.0f;
             float speed = rnd_pcg_nextf(&random_device) * 2.5f + 0.5f;
             float radius_minimum = rnd_pcg_range(&random_device, 12, 64);
-            float radius_maximum = rnd_pcg_range(&random_device, 95, 128);
+            float radius_maximum = rnd_pcg_range(&random_device, 76, 128);
             
             array::clear(name);
             printf(name, "Bomp#%d", i);
@@ -130,12 +134,12 @@ Game::Game(Allocator &allocator, const char *config_path)
             bomp.speed = speed;
             bomp.time_offset = time_offset;
             
-            wwise::set_position(bomp.wwise_game_object_id, bomp.position);
+            wwise::set_game_parameter(AK::GAME_PARAMETERS::BOMPMAXSIZE, bomp.wwise_game_object_id, radius_maximum);
             array::push_back(bomps, bomp);
         }
     }
     
-    wwise::set_position(wwise.default_listener_id, math::Vector3f { window_width * 0.5f, window_height * 0.5f, -5.0f });
+    wwise::set_position(wwise.default_listener_id, math::Vector3f { window_width * 0.5f, window_height * 0.5f, -100.0f });
 }
 
 Game::~Game() {
@@ -195,21 +199,21 @@ void wavy_circle(engine::Canvas &canvas, int32_t x_center, int32_t y_center, int
     }
 }
 
-void game_state_playing_update(engine::Engine &engine, Game &game_object, float t, float dt) {
+void game_state_playing_update(engine::Engine &engine, Game &game, float t, float dt) {
     using namespace engine::canvas;
-    engine::Canvas &c = *game_object.canvas;
+    engine::Canvas &c = *game.canvas;
 
-    math::Color4f black = game_object.palette[6];
-    math::Color4f dark_gray = game_object.palette[7];
-    math::Color4f light_gray = game_object.palette[8];
-    math::Color4f white = game_object.palette[9];
+    math::Color4f black = game.palette[6];
+    math::Color4f dark_gray = game.palette[7];
+    math::Color4f light_gray = game.palette[8];
+    math::Color4f white = game.palette[9];
 
     rnd_pcg_t random_device;
     rnd_pcg_seed(&random_device, 512);
 
     clear(c, light_gray);
 
-    for (Bomp *bomp = array::begin(game_object.bomps); bomp != array::end(game_object.bomps); ++bomp) {
+    for (Bomp *bomp = array::begin(game.bomps); bomp != array::end(game.bomps); ++bomp) {
         float r = math::lerp(bomp->radius_min, bomp->radius_max, (sinf(t * bomp->speed + bomp->time_offset) + 1.0f) * 0.5f);
         
         float threshold = bomp->radius_max * 0.85f;
@@ -219,13 +223,14 @@ void game_state_playing_update(engine::Engine &engine, Game &game_object, float 
         }
         
         bomp->radius = r;
+        wwise::set_position(bomp->wwise_game_object_id, right_handed_screen_to_left_handed_world(game, bomp->position));
     }
 
-    for (Bomp *bomp = array::begin(game_object.bomps); bomp != array::end(game_object.bomps); ++bomp) {
+    for (Bomp *bomp = array::begin(game.bomps); bomp != array::end(game.bomps); ++bomp) {
         circle_fill(c, bomp->position.x + 6, bomp->position.y + 6, bomp->radius, dark_gray);
     }
 
-    for (Bomp *bomp = array::begin(game_object.bomps); bomp != array::end(game_object.bomps); ++bomp) {
+    for (Bomp *bomp = array::begin(game.bomps); bomp != array::end(game.bomps); ++bomp) {
         circle_fill(c, bomp->position.x, bomp->position.y, bomp->radius, white);
     }
     
@@ -233,7 +238,7 @@ void game_state_playing_update(engine::Engine &engine, Game &game_object, float 
     float max_decay = 1.5f;
     float amplitude_inset = 11.0f;
     
-    for (Bomp *bomp = array::begin(game_object.bomps); bomp != array::end(game_object.bomps); ++bomp) {
+    for (Bomp *bomp = array::begin(game.bomps); bomp != array::end(game.bomps); ++bomp) {
         float radius = bomp->radius - amplitude_inset;
         if (radius >= 1.0f) {
             float amplitude = 0.0f;
@@ -250,7 +255,7 @@ void game_state_playing_update(engine::Engine &engine, Game &game_object, float 
         }
     }
     
-    for (Bomp *bomp = array::begin(game_object.bomps); bomp != array::end(game_object.bomps); ++bomp) {
+    for (Bomp *bomp = array::begin(game.bomps); bomp != array::end(game.bomps); ++bomp) {
         circle_fill(c, bomp->position.x, bomp->position.y, bomp->radius - amplitude_inset - max_amplitude, white);
     }
 
