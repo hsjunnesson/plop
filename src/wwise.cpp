@@ -264,29 +264,33 @@ AkPlayingID post_event(const char *event_name, AkGameObjectID game_object_id) {
     return playing_id;
 }
 
-void set_position(AkGameObjectID game_object_id, math::Vector3f position) {
+void set_pose(AkGameObjectID game_object_id, math::Vector3f position, math::Vector3f front, math::Vector3f top) {
     AkVector pos;
     pos.X = position.x;
     pos.Y = position.y;
     pos.Z = position.z;
     
-    AkVector front;
-    front.X = 0;
-    front.Y = 0;
-    front.Z = 1;
+    AkVector f;
+    f.X = front.x;
+    f.Y = front.y;
+    f.Z = front.z;
     
-    AkVector top;
-    top.X = 0;
-    top.Y = 1;
-    top.Z = 0;
+    AkVector t;
+    t.X = top.x;
+    t.Y = top.y;
+    t.Z = top.z;
 
     AkSoundPosition transform;
-    transform.Set(pos, front, top);
+    transform.Set(pos, f, t);
 
     AKRESULT result = AK::SoundEngine::SetPosition(game_object_id, transform);
     if (result != AK_Success) {
         log_error("Could not AK::SoundEngine::SetPosition for game object %" PRIu64 ": %d", game_object_id, result);
     }
+}
+
+void set_position(AkGameObjectID game_object_id, math::Vector3f position) {
+    set_pose(game_object_id, position, math::Vector3f { 0, 0, 1 }, math::Vector3f { 0, 1, 0 });
 }
 
 void set_game_parameter(AkRtpcID parameter_id, AkGameObjectID game_object_id, AkRtpcValue value) {

@@ -67,6 +67,7 @@ struct Bomp {
     float radius_max;
     float speed;
     float time_offset;
+    float rotation;
 };
 
 struct Game {

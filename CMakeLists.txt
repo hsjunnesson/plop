@@ -11,7 +11,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-set(LIVE_PP True)
+set(LIVE_PP False)
 set(SUPERLUMINAL False)
 
 # Find locally installed dependencies. Tip: Use VCPKG for these.

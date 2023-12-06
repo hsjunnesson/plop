@@ -112,8 +112,6 @@ Game::Game(Allocator &allocator, const char *config_path)
         
         int num_bomps = 8;
         for (int i = 0; i < num_bomps; ++i) {
-            int32_t x = rnd_pcg_range(&random_device, 64, window_width - 64);
-            int32_t y = rnd_pcg_range(&random_device, 64, window_height - 64);
             float time_offset = rnd_pcg_nextf(&random_device) * 5.0f;
             float speed = rnd_pcg_nextf(&random_device) * 2.5f + 0.5f;
             float radius_minimum = rnd_pcg_range(&random_device, 12, 64);
@@ -121,11 +119,25 @@ Game::Game(Allocator &allocator, const char *config_path)
             
             array::clear(name);
             printf(name, "Bomp#%d", i);
-            
+
             Bomp bomp;
-            bomp.position.x = x;
-            bomp.position.y = y;
-            bomp.position.z = 0.0f;
+
+            bool valid_pos = false;
+            while (!valid_pos) {
+                bomp.position.x = rnd_pcg_range(&random_device, 64, window_width - 64);;
+                bomp.position.y = rnd_pcg_range(&random_device, 64, window_height - 64);
+                bomp.position.z = 0.0f;
+                
+                valid_pos = true;
+                for (Bomp *other_bomp = array::begin(bomps); other_bomp != array::end(bomps); ++other_bomp) {
+                    float distance = sqrt(pow(other_bomp->position.x - bomp.position.x, 2) + pow(other_bomp->position.y - bomp.position.y, 2));
+                    if (distance <= 128) {
+                        valid_pos = false;
+                        break;
+                    }
+                }
+            }
+            
             bomp.wwise_game_object_id = wwise::register_game_object(c_str(name));
             bomp.degree = Degree(rnd_pcg_range(&random_device, 1, 7));
             bomp.radius = radius_minimum;
@@ -133,13 +145,20 @@ Game::Game(Allocator &allocator, const char *config_path)
             bomp.radius_max = radius_maximum;
             bomp.speed = speed;
             bomp.time_offset = time_offset;
-            
+            bomp.rotation = bomp.time_offset;
+
             wwise::set_game_parameter(AK::GAME_PARAMETERS::BOMPMAXSIZE, bomp.wwise_game_object_id, radius_maximum);
             array::push_back(bomps, bomp);
         }
     }
     
-    wwise::set_position(wwise.default_listener_id, math::Vector3f { window_width * 0.5f, window_height * 0.5f, -100.0f });
+    // Default listener
+    {
+        math::Vector3f position = { window_width * 0.5f, window_height * 0.5f, -100.0f };
+        math::Vector3f front = { 0, 0, 1 };
+        math::Vector3f top = { 0, 1, 0 };
+        wwise::set_pose(wwise.default_listener_id, position, front, top);
+    }
 }
 
 Game::~Game() {
@@ -174,28 +193,46 @@ AkUniqueID event_for_degree(Degree degree) {
     }
 }
 
-void wavy_circle(engine::Canvas &canvas, int32_t x_center, int32_t y_center, int32_t r, float frequency, float amplitude, float time, math::Color4f col) {
-    float angle_increment = 0.5f; // Smaller increment for smoother circle
-    const int num_segments = static_cast<int>(360 / angle_increment);
-    const float two_pi = 2.0f * M_PI;
+void wavy_circle(engine::Canvas &canvas, const int32_t x_center, const int32_t y_center, const float r, const math::Color4f col, const float frequency, float amplitude, float offset = 0.0f, const int num_segments = 152) {
+    static float TWO_PI = 2.0f * M_PI;
 
-    for (int i = 0; i < num_segments; ++i) {
-        // Calculate the angle for this segment and the next
-        float angle1 = two_pi * i / num_segments;
-        float angle2 = two_pi * (i + 1) / num_segments;
+    for (int i = 1; i <= num_segments; ++i) {
+        float angle1 = TWO_PI * i / num_segments;
+        float angle2 = TWO_PI * (i + 1) / num_segments;
 
-        // Calculate the wavy radius for both points
-        float wavy_radius1 = r + amplitude * sin(frequency * angle1 + time);
-        float wavy_radius2 = r + amplitude * sin(frequency * angle2 + time);
+        float wavy_radius1 = r + amplitude * sin(frequency * angle1 + offset);
+        float wavy_radius2 = r + amplitude * sin(frequency * angle2 + offset);
 
-        // Calculate the coordinates for both points
-        int32_t x1 = x_center + static_cast<int32_t>(wavy_radius1 * cos(angle1));
-        int32_t y1 = y_center + static_cast<int32_t>(wavy_radius1 * sin(angle1));
-        int32_t x2 = x_center + static_cast<int32_t>(wavy_radius2 * cos(angle2));
-        int32_t y2 = y_center + static_cast<int32_t>(wavy_radius2 * sin(angle2));
+        float x1 = x_center + wavy_radius1 * cos(angle1);
+        float y1 = y_center + wavy_radius1 * sin(angle1);
+        float x2 = x_center + wavy_radius2 * cos(angle2);
+        float y2 = y_center + wavy_radius2 * sin(angle2);
 
-        // Draw the line segment
         engine::canvas::line(canvas, x1, y1, x2, y2, col);
+    }
+}
+
+void wavy_circle_fill(engine::Canvas &canvas, const int32_t x_center, const int32_t y_center, const float r, math::Color4f col, const float frequency, const float amplitude, const float offset = 0.0f, const int num_segments = 152) {
+    static float TWO_PI = 2.0f * M_PI;
+
+    math::Vector2f center { x_center, y_center };
+    
+    for (int i = 1; i <= num_segments; ++i) {
+        float angle1 = TWO_PI * i / num_segments;
+        float angle2 = TWO_PI * (i + 1) / num_segments;
+
+        float wavy_radius1 = r + amplitude * sin(frequency * angle1 + offset);
+        float wavy_radius2 = r + amplitude * sin(frequency * angle2 + offset);
+
+        float x1 = x_center + wavy_radius1 * cos(angle1);
+        float y1 = y_center + wavy_radius1 * sin(angle1);
+        float x2 = x_center + wavy_radius2 * cos(angle2);
+        float y2 = y_center + wavy_radius2 * sin(angle2);
+        
+        math::Vector2f v0 { x1, y1 };
+        math::Vector2f v1 { x2, y2 };
+        
+        engine::canvas::triangle_fill(canvas, v0, v1, center, col);
     }
 }
 
@@ -212,7 +249,62 @@ void game_state_playing_update(engine::Engine &engine, Game &game, float t, floa
     rnd_pcg_seed(&random_device, 512);
 
     clear(c, light_gray);
-
+    
+    float jump_time = 1.0f;
+    
+    auto vertical_bomp = [t, jump_time](const Bomp *bomp, int32_t &height_offset, int32_t &shadow_rad_offset) {
+        if (bomp->playing_id != AK_INVALID_PLAYING_ID) {
+            float time_since = t - bomp->playing_time;
+            if (time_since < jump_time) {
+                float ratio = sinf((time_since / jump_time) * M_PI);
+                height_offset = (int32_t)math::lerp(6.0f, 32.0f, ratio);
+                shadow_rad_offset = (int32_t)math::lerp(0.0f, 24.0f, ratio);
+                return;
+            }
+        }
+        
+        height_offset = 6;
+        shadow_rad_offset = 0;
+    };
+    
+    auto speed_rot_bomp = [t, jump_time](const Bomp *bomp, float &time_offset) {
+        if (bomp->playing_id != AK_INVALID_PLAYING_ID) {
+            float time_since = t - bomp->playing_time;
+            if (time_since < jump_time) {
+                float ratio = cosf((time_since / jump_time) * (M_PI / 2.0f));
+                time_offset = math::lerp<float>(0.0f, 5.0f, ratio);
+                return;
+            }
+        }
+        
+        time_offset = 0.0f;
+    };
+    
+    auto amplitude_bomp = [t, jump_time](const Bomp *bomp, float &amplitude) {
+        if (bomp->playing_id != AK_INVALID_PLAYING_ID) {
+            float time_since = t - bomp->playing_time;
+            if (time_since < jump_time) {
+                float ratio = cosf((time_since / jump_time) * (M_PI / 2.0f));
+                amplitude = math::lerp(0.0f, 8.0f, ratio);
+                return;
+            }
+        }
+        
+        amplitude = 0.0f;
+    };
+    
+    auto num_segments_bomp = [t, jump_time](const Bomp *bomp, int &num_segments) {
+        if (bomp->playing_id != AK_INVALID_PLAYING_ID) {
+            float time_since = t - bomp->playing_time;
+            if (time_since < jump_time) {
+                num_segments = 128;
+                return;
+            }
+        }
+        
+        num_segments = 48;
+    };
+    
     for (Bomp *bomp = array::begin(game.bomps); bomp != array::end(game.bomps); ++bomp) {
         float r = math::lerp(bomp->radius_min, bomp->radius_max, (sinf(t * bomp->speed + bomp->time_offset) + 1.0f) * 0.5f);
         
@@ -224,41 +316,48 @@ void game_state_playing_update(engine::Engine &engine, Game &game, float t, floa
         
         bomp->radius = r;
         wwise::set_position(bomp->wwise_game_object_id, right_handed_screen_to_left_handed_world(game, bomp->position));
+        
+        float rotation_incr = bomp->speed * 5.0f;
+        float rotation_jump_incr = 0.0f;
+        speed_rot_bomp(bomp, rotation_jump_incr);
+        bomp->rotation += dt * (rotation_incr + rotation_jump_incr);
     }
 
     for (Bomp *bomp = array::begin(game.bomps); bomp != array::end(game.bomps); ++bomp) {
-        circle_fill(c, bomp->position.x + 6, bomp->position.y + 6, bomp->radius, dark_gray);
-    }
+        int32_t height_offset = 0;
+        int32_t shadow_rad_offset = 0;
+        vertical_bomp(bomp, height_offset, shadow_rad_offset);
 
-    for (Bomp *bomp = array::begin(game.bomps); bomp != array::end(game.bomps); ++bomp) {
-        circle_fill(c, bomp->position.x, bomp->position.y, bomp->radius, white);
-    }
-    
-    float max_amplitude = 10.0f;
-    float max_decay = 1.5f;
-    float amplitude_inset = 11.0f;
-    
-    for (Bomp *bomp = array::begin(game.bomps); bomp != array::end(game.bomps); ++bomp) {
-        float radius = bomp->radius - amplitude_inset;
-        if (radius >= 1.0f) {
-            float amplitude = 0.0f;
-            
-            if (bomp->playing_id != AK_INVALID_PLAYING_ID) {
-                float time_diff = t - bomp->playing_time;
-                if (time_diff <= max_decay) {
-                    amplitude = math::lerp(max_amplitude, 0.0f, time_diff / max_decay);
-                }
-            }
-            
-            wavy_circle(c, bomp->position.x, bomp->position.y, radius, 40, amplitude, t * 50.0f, black);
-            //circle(c, bomp->position.x, bomp->position.y, radius, black);
+        float frequency = 20.0f;
+        float amplitude = 0.0f;
+        amplitude_bomp(bomp, amplitude);
+        
+        if (amplitude >= 0.5f) {
+            int num_segments = 0;
+            num_segments_bomp(bomp, num_segments);
+            wavy_circle_fill(c, bomp->position.x, bomp->position.y, bomp->radius - shadow_rad_offset, dark_gray, frequency, amplitude, bomp->rotation, num_segments);
+        } else {
+            circle_fill(c, bomp->position.x, bomp->position.y, bomp->radius - shadow_rad_offset, dark_gray);
         }
     }
-    
-    for (Bomp *bomp = array::begin(game.bomps); bomp != array::end(game.bomps); ++bomp) {
-        circle_fill(c, bomp->position.x, bomp->position.y, bomp->radius - amplitude_inset - max_amplitude, white);
-    }
 
+    for (Bomp *bomp = array::begin(game.bomps); bomp != array::end(game.bomps); ++bomp) {
+        int32_t height_offset = 0;
+        int32_t shadow_rad_offset = 0;
+        vertical_bomp(bomp, height_offset, shadow_rad_offset);
+
+        float frequency = 20.0f;
+        float amplitude = 0.0f;
+        amplitude_bomp(bomp, amplitude);
+
+        if (amplitude >= 0.5f) {
+            int num_segments = 0;
+            num_segments_bomp(bomp, num_segments);
+            wavy_circle_fill(c, bomp->position.x - height_offset, bomp->position.y - height_offset, bomp->radius, white, frequency, amplitude, bomp->rotation, num_segments);
+        } else {
+            circle_fill(c, bomp->position.x - height_offset, bomp->position.y - height_offset, bomp->radius, white);
+        }
+    }
 }
 
 void update(engine::Engine &engine, void *game_object, float t, float dt) {

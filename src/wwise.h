@@ -33,6 +33,7 @@ void unregister_game_object(AkGameObjectID game_object_id);
 AkPlayingID post_event(AkUniqueID event_id, AkGameObjectID game_object_id);
 AkPlayingID post_event(const char *event_name, AkGameObjectID game_object_id);
 
+void set_pose(AkGameObjectID game_object_id, math::Vector3f position, math::Vector3f front, math::Vector3f top);
 void set_position(AkGameObjectID game_object_id, math::Vector3f position);
 
 void set_game_parameter(AkRtpcID parameter_id, AkGameObjectID game_object_id, AkRtpcValue value);
