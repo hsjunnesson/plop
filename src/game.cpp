@@ -110,7 +110,7 @@ Game::Game(Allocator &allocator, const char *config_path)
         TempAllocator128 ta;
         Buffer name(ta);
         
-        int num_bomps = 8;
+        int num_bomps = 6;
         for (int i = 0; i < num_bomps; ++i) {
             float time_offset = rnd_pcg_nextf(&random_device) * 5.0f;
             float speed = rnd_pcg_nextf(&random_device) * 2.5f + 0.5f;
@@ -238,17 +238,32 @@ void wavy_circle_fill(engine::Canvas &canvas, const int32_t x_center, const int3
 
 void game_state_playing_update(engine::Engine &engine, Game &game, float t, float dt) {
     using namespace engine::canvas;
+    
     engine::Canvas &c = *game.canvas;
 
     math::Color4f black = game.palette[6];
     math::Color4f dark_gray = game.palette[7];
     math::Color4f light_gray = game.palette[8];
     math::Color4f white = game.palette[9];
-
+    math::Color4f green = game.palette[37];
+    math::Color4f orange = game.palette[17];
+    
+    math::Color4f background = light_gray;
+    math::Color4f shadow = dark_gray;
+    
+//  autumn.pal
+//    math::Color4f black = game.palette[0];
+//    math::Color4f shadow = game.palette[1];
+//    math::Color4f white = game.palette[2];
+//    math::Color4f pale = game.palette[3];
+//    math::Color4f red = game.palette[4];
+//    math::Color4f yellow = game.palette[5];
+//    math::Color4f orange = game.palette[6];
+        
     rnd_pcg_t random_device;
     rnd_pcg_seed(&random_device, 512);
 
-    clear(c, light_gray);
+    clear(c, background);
     
     float jump_time = 1.0f;
     
@@ -305,6 +320,7 @@ void game_state_playing_update(engine::Engine &engine, Game &game, float t, floa
         num_segments = 48;
     };
     
+    // Update bomps
     for (Bomp *bomp = array::begin(game.bomps); bomp != array::end(game.bomps); ++bomp) {
         float r = math::lerp(bomp->radius_min, bomp->radius_max, (sinf(t * bomp->speed + bomp->time_offset) + 1.0f) * 0.5f);
         
@@ -323,6 +339,7 @@ void game_state_playing_update(engine::Engine &engine, Game &game, float t, floa
         bomp->rotation += dt * (rotation_incr + rotation_jump_incr);
     }
 
+    // Draw bomp shadow
     for (Bomp *bomp = array::begin(game.bomps); bomp != array::end(game.bomps); ++bomp) {
         int32_t height_offset = 0;
         int32_t shadow_rad_offset = 0;
@@ -341,6 +358,7 @@ void game_state_playing_update(engine::Engine &engine, Game &game, float t, floa
         }
     }
 
+    // Draw bomp
     for (Bomp *bomp = array::begin(game.bomps); bomp != array::end(game.bomps); ++bomp) {
         int32_t height_offset = 0;
         int32_t shadow_rad_offset = 0;
@@ -486,6 +504,7 @@ void transition(engine::Engine &engine, void *game_object, AppState app_state) {
     }
     case AppState::Initializing: {
         log_info("Initializing");
+        wwise::load_bank(game->wwise, "Mix_Master");
         wwise::load_bank(game->wwise, "Debug_Sounds");
         wwise::load_bank(game->wwise, "Player");
         engine::init_canvas(engine, *game->canvas, game->config);

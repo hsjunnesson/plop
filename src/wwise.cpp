@@ -135,6 +135,11 @@ Wwise::Wwise(Allocator &allocator)
         }
     }
     
+    // Plugins
+    {
+//        AK::SoundEngine::RegisterPlugin(A)
+    }
+
 #if !defined AK_OPTIMIZED
     // Communication
     {

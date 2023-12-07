@@ -10,6 +10,11 @@
 				<ActorMixer Name="Piano" ID="{DB5ACDB2-6483-4DB3-B2F7-DFB6F2BF6928}" ShortID="1033388588">
 					<PropertyList>
 						<Property Name="3DSpatialization" Type="int16" Value="1"/>
+						<Property Name="UserAuxSendVolume0" Type="Real64">
+							<ValueList>
+								<Value>8</Value>
+							</ValueList>
+						</Property>
 					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
@@ -17,6 +22,9 @@
 						</Reference>
 						<Reference Name="OutputBus">
 							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{17193359-C40F-4038-86B6-C97BDE00992C}"/>
+						</Reference>
+						<Reference Name="UserAuxSend0">
+							<ObjectRef Name="Level" ID="{E0236C0B-7D7D-4318-9138-5F827B00414B}" WorkUnitID="{17193359-C40F-4038-86B6-C97BDE00992C}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>

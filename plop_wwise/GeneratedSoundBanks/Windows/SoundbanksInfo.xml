@@ -13,10 +13,13 @@
 			<ShortName>Player</ShortName>
 			<Path>Player.bnk</Path>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{4263A2CC-DF8F-7F64-2AC0-E88DF378FE23}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{FCE2309A-09D7-D11E-D9F3-E010A307F6D9}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
+				<ShareSets>
+					<Plugin Id="3673681183" Name="Large_Bright_Chamber1" LibName="Wwise Matrix Reverb" LibId="7536643"/>
+				</ShareSets>
 				<AudioDevices>
 					<Plugin Id="2317455096" Name="No_Output" LibName="No Output" LibId="11862023"/>
 					<Plugin Id="3859886410" Name="System" LibName="System" LibId="11403271"/>
@@ -25,6 +28,15 @@
 			<Busses>
 				<Bus Id="3803692087" Name="Master Audio Bus"/>
 			</Busses>
+			<AuxBusses>
+				<AuxBus Id="2782712965" Name="Level">
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="3673681183"/>
+						</ShareSets>
+					</PluginRefs>
+				</AuxBus>
+			</AuxBusses>
 			<GameParameters>
 				<GameParameter Id="3330268128" Name="BompMaxSize"/>
 			</GameParameters>
@@ -157,7 +169,28 @@
 				</AcousticTexture>
 			</AcousticTextures>
 		</SoundBank>
-		<SoundBank Id="3639013697" Type="User" Language="SFX" Hash="{C5EDCF93-BDE6-8D21-B16B-8A0D9925ED78}">
+		<SoundBank Id="1425287122" Type="User" Language="SFX" Hash="{BA563C83-3A25-76DE-6EBA-3E97F316476F}">
+			<ShortName>Mix_Master</ShortName>
+			<Path>Mix_Master.bnk</Path>
+			<Plugins>
+				<ShareSets>
+					<Plugin Id="3673681183" Name="Large_Bright_Chamber1" LibName="Wwise Matrix Reverb" LibId="7536643"/>
+				</ShareSets>
+			</Plugins>
+			<Busses>
+				<Bus Id="3803692087" Name="Master Audio Bus"/>
+			</Busses>
+			<AuxBusses>
+				<AuxBus Id="2782712965" Name="Level">
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="3673681183"/>
+						</ShareSets>
+					</PluginRefs>
+				</AuxBus>
+			</AuxBusses>
+		</SoundBank>
+		<SoundBank Id="3639013697" Type="User" Language="SFX" Hash="{94E7E545-85B8-84C3-A98B-E4CD50C14526}">
 			<ShortName>Debug_Sounds</ShortName>
 			<Path>Debug_Sounds.bnk</Path>
 			<Media>
@@ -195,36 +228,57 @@
 					<MediaRefs>
 						<MediaRef Id="912972232"/>
 					</MediaRefs>
+					<AuxBusRefs>
+						<AuxBusRef Id="2782712965" Name="Level"/>
+					</AuxBusRefs>
 				</Event>
 				<Event Id="1625241216" Name="Play_Piano_Bb_001">
 					<MediaRefs>
 						<MediaRef Id="965586834"/>
 					</MediaRefs>
+					<AuxBusRefs>
+						<AuxBusRef Id="2782712965" Name="Level"/>
+					</AuxBusRefs>
 				</Event>
 				<Event Id="15674995" Name="Play_Piano_C_001">
 					<MediaRefs>
 						<MediaRef Id="671718477"/>
 					</MediaRefs>
+					<AuxBusRefs>
+						<AuxBusRef Id="2782712965" Name="Level"/>
+					</AuxBusRefs>
 				</Event>
 				<Event Id="1200867520" Name="Play_Piano_D_001">
 					<MediaRefs>
 						<MediaRef Id="298918004"/>
 					</MediaRefs>
+					<AuxBusRefs>
+						<AuxBusRef Id="2782712965" Name="Level"/>
+					</AuxBusRefs>
 				</Event>
 				<Event Id="3256878353" Name="Play_Piano_E_001">
 					<MediaRefs>
 						<MediaRef Id="742954270"/>
 					</MediaRefs>
+					<AuxBusRefs>
+						<AuxBusRef Id="2782712965" Name="Level"/>
+					</AuxBusRefs>
 				</Event>
 				<Event Id="2506816126" Name="Play_Piano_F_001">
 					<MediaRefs>
 						<MediaRef Id="106529246"/>
 					</MediaRefs>
+					<AuxBusRefs>
+						<AuxBusRef Id="2782712965" Name="Level"/>
+					</AuxBusRefs>
 				</Event>
 				<Event Id="4116466127" Name="Play_Piano_G_001">
 					<MediaRefs>
 						<MediaRef Id="742989952"/>
 					</MediaRefs>
+					<AuxBusRefs>
+						<AuxBusRef Id="2782712965" Name="Level"/>
+					</AuxBusRefs>
 				</Event>
 			</Events>
 			<GameParameters>
@@ -232,5 +286,5 @@
 			</GameParameters>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{768E3447-CE0D-D46C-ADF4-083BA5040EF4}</FileHash>
+	<FileHash>{2D6DCEA7-40DA-7D4E-1F3B-E383DC3B2806}</FileHash>
 </SoundBanksInfo>

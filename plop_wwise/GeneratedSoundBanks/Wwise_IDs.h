@@ -31,6 +31,7 @@ namespace AK
     {
         static const AkUniqueID INIT = 1355168291U;
         static const AkUniqueID DEBUG_SOUNDS = 3639013697U;
+        static const AkUniqueID MIX_MASTER = 1425287122U;
         static const AkUniqueID PLAYER = 1069431850U;
     } // namespace BANKS
 
@@ -38,6 +39,11 @@ namespace AK
     {
         static const AkUniqueID MASTER_AUDIO_BUS = 3803692087U;
     } // namespace BUSSES
+
+    namespace AUX_BUSSES
+    {
+        static const AkUniqueID LEVEL = 2782712965U;
+    } // namespace AUX_BUSSES
 
     namespace AUDIO_DEVICES
     {

@@ -25,6 +25,13 @@
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>
 				</SoundBank>
+				<SoundBank Name="Mix_Master" ID="{5AAA1305-4B9F-40D6-A76D-99FD02A671BC}">
+					<ObjectInclusionList>
+						<ObjectRef Name="Level" ID="{E0236C0B-7D7D-4318-9138-5F827B00414B}" WorkUnitID="{17193359-C40F-4038-86B6-C97BDE00992C}" Origin="Manual" Filter="7"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
 			</ChildrenList>
 		</WorkUnit>
 	</SoundBanks>
