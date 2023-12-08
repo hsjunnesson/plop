@@ -1,1 +1,1 @@
-Plop is a game.
+Plop is plop.
