@@ -56,20 +56,6 @@ enum class Degree : int {
     OCTAVE = 8,
 };
 
-struct Bomp {
-    math::Vector3f position = {0.0f, 0.0f, 0.0f};
-    AkGameObjectID wwise_game_object_id = AK_INVALID_GAME_OBJECT;
-    AkPlayingID playing_id = AK_INVALID_PLAYING_ID;
-    float playing_time = 0.0f;
-    Degree degree = Degree::NONE;
-    float radius = 0.0f;
-    float radius_min = 0.0f;
-    float radius_max = 0.0f;
-    float speed = 0.0f;
-    float time_offset = 0.0f;
-    float rotation = 0.0f;
-};
-
 struct Game {
     Game(foundation::Allocator &allocator, const char *config_path);
     ~Game();
@@ -83,8 +69,6 @@ struct Game {
     
     foundation::Array<math::Color4f> palette;
     wwise::Wwise wwise;
-    
-    foundation::Array<Bomp> bomps;
 };
 
 /**
