@@ -114,8 +114,8 @@ Game::Game(Allocator &allocator, const char *config_path)
         for (int i = 0; i < num_bomps; ++i) {
             float time_offset = rnd_pcg_nextf(&random_device) * 5.0f;
             float speed = rnd_pcg_nextf(&random_device) * 2.5f + 0.5f;
-            float radius_minimum = rnd_pcg_range(&random_device, 12, 64);
-            float radius_maximum = rnd_pcg_range(&random_device, 76, 128);
+            float radius_minimum = (float)rnd_pcg_range(&random_device, 12, 64);
+            float radius_maximum = (float)rnd_pcg_range(&random_device, 76, 128);
             
             array::clear(name);
             printf(name, "Bomp#%d", i);
@@ -124,13 +124,13 @@ Game::Game(Allocator &allocator, const char *config_path)
 
             bool valid_pos = false;
             while (!valid_pos) {
-                bomp.position.x = rnd_pcg_range(&random_device, 64, window_width - 64);;
-                bomp.position.y = rnd_pcg_range(&random_device, 64, window_height - 64);
+                bomp.position.x = (float)rnd_pcg_range(&random_device, 64, window_width - 64);;
+                bomp.position.y = (float)rnd_pcg_range(&random_device, 64, window_height - 64);
                 bomp.position.z = 0.0f;
                 
                 valid_pos = true;
                 for (Bomp *other_bomp = array::begin(bomps); other_bomp != array::end(bomps); ++other_bomp) {
-                    float distance = sqrt(pow(other_bomp->position.x - bomp.position.x, 2) + pow(other_bomp->position.y - bomp.position.y, 2));
+                    float distance = sqrtf(powf(other_bomp->position.x - bomp.position.x, 2) + powf(other_bomp->position.y - bomp.position.y, 2));
                     if (distance <= 128) {
                         valid_pos = false;
                         break;
@@ -194,7 +194,7 @@ AkUniqueID event_for_degree(Degree degree) {
 }
 
 void wavy_circle(engine::Canvas &canvas, const int32_t x_center, const int32_t y_center, const float r, const math::Color4f col, const float frequency, float amplitude, float offset = 0.0f, const int num_segments = 152) {
-    static float TWO_PI = 2.0f * M_PI;
+    static float TWO_PI = 2.0f * (float)M_PI;
 
     for (int i = 1; i <= num_segments; ++i) {
         float angle1 = TWO_PI * i / num_segments;
@@ -208,12 +208,12 @@ void wavy_circle(engine::Canvas &canvas, const int32_t x_center, const int32_t y
         float x2 = x_center + wavy_radius2 * cos(angle2);
         float y2 = y_center + wavy_radius2 * sin(angle2);
 
-        engine::canvas::line(canvas, x1, y1, x2, y2, col);
+        engine::canvas::line(canvas, (int32_t)x1, (int32_t)y1, (int32_t)x2, (int32_t)y2, col);
     }
 }
 
-void wavy_circle_fill(engine::Canvas &canvas, const int32_t x_center, const int32_t y_center, const float r, math::Color4f col, const float frequency, const float amplitude, const float offset = 0.0f, const int num_segments = 152) {
-    static float TWO_PI = 2.0f * M_PI;
+void wavy_circle_fill(engine::Canvas &canvas, const float x_center, const float y_center, const float r, math::Color4f col, const float frequency, const float amplitude, const float offset = 0.0f, const int num_segments = 152) {
+    static float TWO_PI = 2.0f * (float)M_PI;
 
     math::Vector2f center { x_center, y_center };
     
@@ -237,6 +237,7 @@ void wavy_circle_fill(engine::Canvas &canvas, const int32_t x_center, const int3
 }
 
 void game_state_playing_update(engine::Engine &engine, Game &game, float t, float dt) {
+    (void)engine;
     using namespace engine::canvas;
     
     engine::Canvas &c = *game.canvas;
@@ -271,7 +272,7 @@ void game_state_playing_update(engine::Engine &engine, Game &game, float t, floa
         if (bomp->playing_id != AK_INVALID_PLAYING_ID) {
             float time_since = t - bomp->playing_time;
             if (time_since < jump_time) {
-                float ratio = sinf((time_since / jump_time) * M_PI);
+                float ratio = sinf((time_since / jump_time) * (float)M_PI);
                 height_offset = (int32_t)math::lerp(6.0f, 32.0f, ratio);
                 shadow_rad_offset = (int32_t)math::lerp(0.0f, 24.0f, ratio);
                 return;
@@ -286,7 +287,7 @@ void game_state_playing_update(engine::Engine &engine, Game &game, float t, floa
         if (bomp->playing_id != AK_INVALID_PLAYING_ID) {
             float time_since = t - bomp->playing_time;
             if (time_since < jump_time) {
-                float ratio = cosf((time_since / jump_time) * (M_PI / 2.0f));
+                float ratio = cosf((time_since / jump_time) * ((float)M_PI / 2.0f));
                 time_offset = math::lerp<float>(0.0f, 5.0f, ratio);
                 return;
             }
@@ -299,7 +300,7 @@ void game_state_playing_update(engine::Engine &engine, Game &game, float t, floa
         if (bomp->playing_id != AK_INVALID_PLAYING_ID) {
             float time_since = t - bomp->playing_time;
             if (time_since < jump_time) {
-                float ratio = cosf((time_since / jump_time) * (M_PI / 2.0f));
+                float ratio = cosf((time_since / jump_time) * ((float)M_PI / 2.0f));
                 amplitude = math::lerp(0.0f, 8.0f, ratio);
                 return;
             }
@@ -354,7 +355,7 @@ void game_state_playing_update(engine::Engine &engine, Game &game, float t, floa
             num_segments_bomp(bomp, num_segments);
             wavy_circle_fill(c, bomp->position.x, bomp->position.y, bomp->radius - shadow_rad_offset, dark_gray, frequency, amplitude, bomp->rotation, num_segments);
         } else {
-            circle_fill(c, bomp->position.x, bomp->position.y, bomp->radius - shadow_rad_offset, dark_gray);
+            circle_fill(c, (int32_t)bomp->position.x, (int32_t)bomp->position.y, (int32_t)bomp->radius - shadow_rad_offset, dark_gray);
         }
     }
 
@@ -373,7 +374,7 @@ void game_state_playing_update(engine::Engine &engine, Game &game, float t, floa
             num_segments_bomp(bomp, num_segments);
             wavy_circle_fill(c, bomp->position.x - height_offset, bomp->position.y - height_offset, bomp->radius, white, frequency, amplitude, bomp->rotation, num_segments);
         } else {
-            circle_fill(c, bomp->position.x - height_offset, bomp->position.y - height_offset, bomp->radius, white);
+            circle_fill(c, (int32_t)bomp->position.x - height_offset, (int32_t)bomp->position.y - height_offset, (int32_t)bomp->radius, white);
         }
     }
 }
@@ -420,7 +421,7 @@ void on_input(engine::Engine &engine, void *game_object, engine::InputCommand &i
 
     if (input_command.input_type == engine::InputType::Key) {
         bool pressed = input_command.key_state.trigger_state == engine::TriggerState::Pressed;
-        bool repeated = input_command.key_state.trigger_state == engine::TriggerState::Repeated;
+//        bool repeated = input_command.key_state.trigger_state == engine::TriggerState::Repeated;
 
         uint64_t bind_action_key = action_key_for_input_command(input_command);
         if (bind_action_key == 0) {
@@ -457,6 +458,8 @@ void render(engine::Engine &engine, void *game_object) {
 }
 
 void render_imgui(engine::Engine &engine, void *game_object) {
+    (void)engine;
+    
     if (!game_object) {
         return;
     }

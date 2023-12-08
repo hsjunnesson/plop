@@ -210,14 +210,14 @@ AkBankID load_bank(Wwise &wwise, const char *bank_name) {
         log_fatal("Could not load bank: %s: %d", bank_name, result);
     }
     
-    uint64_t hash_key = murmur_hash_64(bank_name, strlen(bank_name), 0);
+    uint64_t hash_key = murmur_hash_64(bank_name, (uint32_t)strlen(bank_name), 0);
     hash::set(wwise.loaded_banks, hash_key, out_bank_id);
     
     return out_bank_id;
 }
 
 void unload_bank(Wwise &wwise, const char *bank_name) {
-    uint64_t hash_key = murmur_hash_64(bank_name, strlen(bank_name), 0);
+    uint64_t hash_key = murmur_hash_64(bank_name, (uint32_t)strlen(bank_name), 0);
 
     if (!hash::has(wwise.loaded_banks, hash_key)) {
         log_error("Trying to unload a bank that isn't loaded: %s", bank_name);
