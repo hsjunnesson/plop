@@ -15,6 +15,7 @@
 #include <engine/log.h>
 #include <engine/canvas.h>
 #include <engine/math.inl>
+#include <engine/sprites.h>
 
 #include <hash.h>
 #include <memory.h>
@@ -27,8 +28,8 @@ namespace plop {
 
 using namespace foundation;
 
-math::Vector3f right_handed_screen_to_left_handed_world(const Game &game, const math::Vector3f v) {
-    return math::Vector3f { v.x, game.canvas->height - v.y, v.z };
+glm::vec3 right_handed_screen_to_left_handed_world(const Game &game, const glm::vec3 v) {
+    return glm::vec3 { v.x, game.canvas->height - v.y, v.z };
 }
 
 Game::Game(Allocator &allocator, const char *config_path)
@@ -37,19 +38,22 @@ Game::Game(Allocator &allocator, const char *config_path)
 , app_state(AppState::None)
 , action_binds(nullptr)
 , canvas(nullptr)
+, sprites(nullptr)
 , palette(allocator)
 , wwise(allocator) {
     using namespace foundation::string_stream;
 
     action_binds = MAKE_NEW(allocator, engine::ActionBinds, allocator, config_path);
     canvas = MAKE_NEW(allocator, engine::Canvas, allocator);
-
+    sprites = MAKE_NEW(allocator, engine::Sprites, allocator);
+    
     if (!grunka::load_palette("assets/resurrect-64.pal", this->palette)) {
         log_fatal("Could not load palette.");
     }
     
     uint32_t window_width = 0;
     uint32_t window_height = 0;
+    const char *atlas_filename = nullptr;
     
     // Config
     {
@@ -96,21 +100,29 @@ Game::Game(Allocator &allocator, const char *config_path)
 
             window_height = static_cast<uint32_t>(i);
         });
+        
+        read_property(config, "game", "atlas_filename", [this, &atlas_filename](const char *property) {
+            assert(strlen(property) > 0);
+            atlas_filename = property;
+        });
     }
     
     // Default listener
     {
-        math::Vector3f position = { window_width * 0.5f, window_height * 0.5f, -100.0f };
-        math::Vector3f front = { 0, 0, 1 };
-        math::Vector3f top = { 0, 1, 0 };
+        glm::vec3 position = { window_width * 0.5f, window_height * 0.5f, -100.0f };
+        glm::vec3 front = { 0, 0, 1 };
+        glm::vec3 top = { 0, 1, 0 };
         wwise::set_pose(wwise.default_listener_id, position, front, top);
     }
+    
+    engine::init_sprites(*sprites, atlas_filename);
 }
 
 Game::~Game() {
     MAKE_DELETE(allocator, ActionBinds, action_binds);
     MAKE_DELETE(allocator, Canvas, canvas);
-
+    MAKE_DELETE(allocator, Sprites, sprites);
+    
     if (config) {
         ini_destroy(config);
     }
@@ -182,6 +194,30 @@ void wavy_circle_fill(engine::Canvas &canvas, const float x_center, const float 
     }
 }
 
+void draw_player(engine::Canvas &canvas, const Player &player) {
+    //    /*\ v0
+    //   /   \
+    //  /  * v3
+    // * v2    * v1
+    
+    math::Vector2f v0 { 1.0f * 64, 0.0f };
+    math::Vector2f v1 { 2.0f * 64, 2.0f * 64 };
+    math::Vector2f v2 { 0.0f, 2.0f * 64 };
+    math::Vector2f v3 { 1.0f * 64, 1.8f * 64 };
+
+    v0.x += player.position.x;
+    v0.y += player.position.y;
+    v1.x += player.position.x;
+    v1.y += player.position.y;
+    v2.x += player.position.x;
+    v2.y += player.position.y;
+    v3.x += player.position.x;
+    v3.y += player.position.y;
+    
+    engine::canvas::triangle_fill(canvas, v0, v3, v2, engine::color::red);
+    engine::canvas::triangle_fill(canvas, v0, v1, v3, engine::color::red);
+}
+
 void game_state_playing_update(engine::Engine &engine, Game &game, float t, float dt) {
     (void)engine;
     using namespace engine::canvas;
@@ -202,7 +238,11 @@ void game_state_playing_update(engine::Engine &engine, Game &game, float t, floa
     rnd_pcg_seed(&random_device, 512);
 
     clear(c, background);
-    
+
+    Player player;
+    player.position.x = 64;
+    player.position.y = 64;
+    draw_player(c, player);
 }
 
 void update(engine::Engine &engine, void *game_object, float t, float dt) {

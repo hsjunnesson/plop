@@ -6,6 +6,8 @@
 #include <AK/SoundEngine/Common/AkTypes.h>
 #include "Wwise_IDs.h"
 #include <engine/math.inl>
+#include <glm/fwd.hpp>
+
 #pragma warning(pop)
 
 #include "util.h"
@@ -33,8 +35,8 @@ void unregister_game_object(AkGameObjectID game_object_id);
 AkPlayingID post_event(AkUniqueID event_id, AkGameObjectID game_object_id);
 AkPlayingID post_event(const char *event_name, AkGameObjectID game_object_id);
 
-void set_pose(AkGameObjectID game_object_id, math::Vector3f position, math::Vector3f front, math::Vector3f top);
-void set_position(AkGameObjectID game_object_id, math::Vector3f position);
+void set_pose(AkGameObjectID game_object_id, glm::vec3 position, glm::vec3 front, glm::vec3 top);
+void set_position(AkGameObjectID game_object_id, glm::vec3 position);
 
 void set_game_parameter(AkRtpcID parameter_id, AkGameObjectID game_object_id, AkRtpcValue value);
 

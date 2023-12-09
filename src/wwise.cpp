@@ -19,6 +19,8 @@
 #include "SoundEngine/Common/AKJobWorkerMgr.h"
 #include "SoundEngine/Common/AkFilePackageLowLevelIODeferred.h"
 
+#include <glm/glm.hpp>
+
 #if !defined AK_OPTIMIZED
 #include <AK/Comm/AkCommunication.h>
 #endif
@@ -269,7 +271,7 @@ AkPlayingID post_event(const char *event_name, AkGameObjectID game_object_id) {
     return playing_id;
 }
 
-void set_pose(AkGameObjectID game_object_id, math::Vector3f position, math::Vector3f front, math::Vector3f top) {
+void set_pose(AkGameObjectID game_object_id, glm::vec3 position, glm::vec3 front, glm::vec3 top) {
     AkVector pos;
     pos.X = position.x;
     pos.Y = position.y;
@@ -294,8 +296,8 @@ void set_pose(AkGameObjectID game_object_id, math::Vector3f position, math::Vect
     }
 }
 
-void set_position(AkGameObjectID game_object_id, math::Vector3f position) {
-    set_pose(game_object_id, position, math::Vector3f { 0, 0, 1 }, math::Vector3f { 0, 1, 0 });
+void set_position(AkGameObjectID game_object_id, glm::vec3 position) {
+    set_pose(game_object_id, position, glm::vec3 { 0, 0, 1 }, glm::vec3 { 0, 1, 0 });
 }
 
 void set_game_parameter(AkRtpcID parameter_id, AkGameObjectID game_object_id, AkRtpcValue value) {

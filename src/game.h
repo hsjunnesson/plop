@@ -2,7 +2,7 @@
 
 #include "collection_types.h"
 #include "memory_types.h"
-#include <engine/math.inl>
+#include <glm/glm.hpp>
 #include "wwise.h"
 
 typedef struct ini_t ini_t;
@@ -12,6 +12,7 @@ struct Engine;
 struct InputCommand;
 struct ActionBinds;
 struct Canvas;
+struct Sprites;
 } // namespace engine
 
 namespace plop {
@@ -56,6 +57,11 @@ enum class Degree : int {
     OCTAVE = 8,
 };
 
+struct Player {
+    glm::vec3 position = {0.0f, 0.0f, 0.0f};
+    float rot = 0.0f;
+};
+
 struct Game {
     Game(foundation::Allocator &allocator, const char *config_path);
     ~Game();
@@ -66,6 +72,7 @@ struct Game {
 
     engine::ActionBinds *action_binds;
     engine::Canvas *canvas;
+    engine::Sprites *sprites;
     
     foundation::Array<math::Color4f> palette;
     wwise::Wwise wwise;
